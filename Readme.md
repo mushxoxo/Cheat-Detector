@@ -1,1 +1,1 @@
-Open the site at: https://aiexamguard.tiiny.site/
+Open the site at: https://examguard.tiiny.site/
