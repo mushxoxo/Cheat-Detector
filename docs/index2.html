@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exam Instructions | AI Cheat Detector</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      color: #333;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    .instructions-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .instructions-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #2c3e50;
+    }
+
+    .instructions-container ul {
+      list-style-type: decimal;
+      padding-left: 20px;
+    }
+
+    .instructions-container li {
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .button-container button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .button-container button:hover {
+      background-color: #2980b9;
+    }
+
+    .back-button {
+      background-color: #95a5a6;
+    }
+
+    .back-button:hover {
+      background-color: #7f8c8d;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #2ecc71;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+  </style>
+</head>
+<body>
+   <header>
+
+            <h1>ExamGuard</h1></>
+       </header>
+
+  <div class="instructions-container">
+    <h2>Important Exam Instructions</h2>
+    <ul>
+      <li>Ensure your webcam and microphone are functioning properly before the exam starts.</li>
+      <li>Keep your face clearly visible at all times – no caps, masks, or sunglasses.</li>
+      <li>Do not look away from the screen frequently. Eye movement is monitored.</li>
+      <li>Do not talk, whisper, or have background conversations.</li>
+      <li>No other electronic devices or materials should be present nearby.</li>
+      <li>Maintain a quiet and well-lit environment throughout the exam.</li>
+      <li>Leaving the frame or covering the camera will be flagged as suspicious activity.</li>
+    </ul>
+
+    <div class="button-container">
+      <button onclick="acknowledgeInstructions()">Got it!</button>
+      <button class="back-button" onclick="goBack()">Back to Exam</button>
+    </div>
+  </div>
+
+  <div id="popup" class="popup">Instructions Acknowledged!</div>
+
+  <script>
+    function acknowledgeInstructions() {
+      const popup = document.getElementById("popup");
+      popup.style.display = "block";
+      setTimeout(() => {
+        popup.style.display = "none";
+      }, 3000);
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+
+</body>
+</html>
