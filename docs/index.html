@@ -164,7 +164,7 @@
       const output = results[Object.keys(results)[0]];
 
       console.log('Prediction:', output.data);
-      status.innerText = output.data[0] < 0.7 ? 'Cheating Detected 🚨' : 'Normal ✅';
+        status.innerText = output.data[0] < 0.7 ? 'Cheating Detected 🚨' : 'Normal ✅';
 
       requestAnimationFrame(processFrame);
     }

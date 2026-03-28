@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ONNX Webcam Cheat Detector</title>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+  <style>
+    video {
+      border: 3px solid #ccc;
+      border-radius: 16px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ONNX Webcam Cheat Detector</h1>
+  <video id="webcam" autoplay playsinline></video>
+  <p id="status">Loading model...</p>
+
+  <script>
+    const video = document.getElementById('webcam');
+    const status = document.getElementById('status');
+    let session;
+
+    async function init() {
+      try {
+        session = await ort.InferenceSession.create('cheat_detector_model.onnx');
+        status.innerText = 'Model loaded ✅';
+
+        await startWebcam();
+        requestAnimationFrame(processFrame);
+      } catch (err) {
+        console.error(err);
+        status.innerText = 'Failed to load model ❌';
+      }
+    }
+
+    async function startWebcam() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      video.srcObject = stream;
+    }
+
+    async function processFrame() {
+      const tensor = await captureFrameAsTensor(video);
+
+      const feeds = { input: tensor }; // adjust input name if needed
+      const results = await session.run(feeds);
+      const output = results[Object.keys(results)[0]];
+
+      console.log('Prediction:', output.data);
+      status.innerText = output.data[0] < 0.7 ? 'Cheating Detected 🚨' : 'Normal ✅';
+
+      requestAnimationFrame(processFrame);
+    }
+
+    async function captureFrameAsTensor(video) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 224;
+      canvas.height = 224;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      const data = Float32Array.from(imageData.data)
+        .filter((_, i) => i % 4 !== 3) // remove alpha
+        .map(v => v / 255); // normalize
+
+      return new ort.Tensor('float32', data, [1, 224, 224, 3]);
+    }
+
+    init();
+  </script>
+</body>
+</html>
+
